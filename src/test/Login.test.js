@@ -9,63 +9,24 @@ test('render title h2', () => {
   expect(titleElement).toBeInTheDocument();
 });
 
-test('run functions', ()=>{
-  const openNotification = jest.fn();
-  const signIn = jest.fn().mockImplementation(() => Promise.resolve({user:'amigas@amiga.com'}));
+test('run function sigIn', ()=>{
+    const signIn= jest.fn().mockImplementation(()=>Promise.resolve({user:'jajajaja@muahahaha.com'}))
+    const openNotification= jest.fn()
+    render(<Login signIn={signIn} openNotification={openNotification} />);
 
-  render(<Login signIn={signIn} openNotification={openNotification} />)
+    const email = screen.getByPlaceholderText('email')
+    const password = screen.getByPlaceholderText('password')
+    const benditoBotton = screen.getByRole('button', {name:/Entrar/i})
+    
+    fireEvent.change(email, {
+        target:{value:'jajajaja@muahahaha.com'}
+    })
 
-  const contentEmail = screen.getByPlaceholderText('email')
-  const contentPassword = screen.getByPlaceholderText('password')
-  const contentSubmit = screen.getByRole('button', {name:/Entrar/i})
-
-  fireEvent.change(contentEmail, {
-    target: {value:'amigas@amiga.com'}
-  })
-
-  fireEvent.change(contentPassword, {
-      target: {value:'12345678'}
-  })
-
-  expect(signIn).not.toHaveBeenCalled()
-  expect(openNotification).not.toHaveBeenCalled()
-  fireEvent.submit(contentSubmit)
-
-  expect(signIn).toHaveBeenCalled()
-  expect(signIn).toHaveBeenCalledWith('amigas@amiga.com','12345678')
-})
-
-test('spy functions', ()=>{
-  const objFunctions = {
-    signIn:(email, password) =>{
-      return new Promise ((resolve, reject)=>{
-          if(email==='amigas@amiga.com' && password==='12345678'){
-            resolve('Welcome amigas@amiga.com')
-          }else{
-            reject('Fail amigas@amigas.com')
-          }
-        })
-    },
-    openNotification:(message) => `Print: ${message}`
-  }
-  const spySignIn = jest.spyOn(objFunctions, 'signIn');
-  
-  render(<Login signIn={objFunctions.signIn} openNotification={objFunctions.openNotification} />)
-
-  const contentEmail = screen.getByPlaceholderText('email')
-  const contentPassword = screen.getByPlaceholderText('password')
-  const contentSubmit = screen.getByRole('button', {name:/Entrar/i})
-
-  fireEvent.change(contentEmail, {
-    target: {value:'amigas@amiga.com'}
-  })
-
-  fireEvent.change(contentPassword, {
-      target: {value:'12345678'}
-  })
-
-  expect(spySignIn).not.toHaveBeenCalled()
-  fireEvent.submit(contentSubmit)
-  expect(spySignIn).toHaveBeenCalled()
-  expect(spySignIn).toHaveBeenCalledWith('amigas@amiga.com','12345678')
+    fireEvent.change(password, {
+        target:{value:'tufechadenacimiento'}
+    })
+    expect(signIn).not.toHaveBeenCalled()
+    fireEvent.submit(benditoBotton)
+    expect(signIn).toHaveBeenCalled()
+    expect(signIn).toBeCalledWith('jajajaja@muahahaha.com','tufechadenacimiento')
 })
