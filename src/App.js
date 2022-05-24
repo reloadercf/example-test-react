@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import { BrowserRouter } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
 
-function App() {
+import {Paths} from './components/Paths'
+
+import {auth} from './lib/firebaseconfig'
+
+const App =()=> {
+  const [isAuthenticate, setIsAuthenticate] = useState(null)
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setIsAuthenticate(user)
+    } else {
+      setIsAuthenticate(null)
+    }
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Paths isAuthenticate={isAuthenticate} />
+    </BrowserRouter>
   );
 }
 
