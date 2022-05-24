@@ -2,6 +2,7 @@ import React from 'react';
 import { Layout, Menu, Avatar, Dropdown, } from 'antd';
 import { CoffeeOutlined } from '@ant-design/icons';
 import style from './MainLayout.module.css'
+import {ProductList} from './ProductList'
 
 export const MainLayout = ({exit}) => {
 
@@ -94,7 +95,7 @@ return (
               minHeight: 360,
             }}
           >
-            contentalgo
+            <ProductList />
           </div>
         </Content>
         <Footer
