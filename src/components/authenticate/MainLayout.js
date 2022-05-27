@@ -2,8 +2,10 @@ import React from 'react';
 import { Layout, Menu, Avatar, Dropdown, } from 'antd';
 import { CoffeeOutlined } from '@ant-design/icons';
 import style from './MainLayout.module.css'
+import { ProductList } from './ProductList';
+import { AddElement } from './AddElement';
 
-export const MainLayout = ({exit}) => {
+export const MainLayout = ({exit, handleSaveNote}) => {
 
   const { Header, Content, Footer, Sider } = Layout;
   const menu = (
@@ -94,7 +96,8 @@ return (
               minHeight: 360,
             }}
           >
-            contentalgo
+            <ProductList />
+            <AddElement handleSaveNote={handleSaveNote} />
           </div>
         </Content>
         <Footer
